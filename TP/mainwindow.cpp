@@ -4,14 +4,14 @@
 #include <time.h>
 #include <stdio.h>
 
-#include "LIB/MfErrNo.h"
-#include "LIB/Core.h"
-#include "LIB/Sw_Device.h"
-#include "LIB/Sw_Mf_Classic.h"
-#include "LIB/Sw_Poll.h"
-#include "LIB/Sw_ISO14443A-3.h"
-#include "LIB/TypeDefs.h"
-#include "LIB/Tools.h"
+#include "MfErrNo.h"
+#include "Core.h"
+#include "Sw_Device.h"
+#include "Sw_Mf_Classic.h"
+#include "Sw_Poll.h"
+#include "Sw_ISO14443A-3.h"
+#include "TypeDefs.h"
+#include "Tools.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

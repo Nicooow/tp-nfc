@@ -13,18 +13,18 @@ SOURCES += \
     mainwindow.cpp \
 
 HEADERS += \
-    LIB/Core.h \
-    LIB/Core_Version.h \
-    LIB/Hardware.h \
-    LIB/Librairie.h \
-    LIB/MfErrNo.h \
-    LIB/Sw_Device.h \
-    LIB/Sw_ISO14443-4.h \
-    LIB/Sw_ISO14443A-3.h \
-    LIB/Sw_Mf_Classic.h \
-    LIB/Sw_Poll.h \
-    LIB/Tools.h \
-    LIB/TypeDefs.h \
+    Core.h \
+    Core_Version.h \
+    Hardware.h \
+    Librairie.h \
+    MfErrNo.h \
+    Sw_Device.h \
+    Sw_ISO14443-4.h \
+    Sw_ISO14443A-3.h \
+    Sw_Mf_Classic.h \
+    Sw_Poll.h \
+    Tools.h \
+    TypeDefs.h \
     mainwindow.h
 
 FORMS += \
@@ -36,7 +36,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    img/nfc.png
+    ODALID_Education.dll \
+    img/nfc.png \
+    libODALID_Education.a
 
 RESOURCES += \
     ressources.qrc
