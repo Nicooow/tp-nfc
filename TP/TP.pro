@@ -13,18 +13,6 @@ SOURCES += \
     mainwindow.cpp \
 
 HEADERS += \
-    Core.h \
-    Core_Version.h \
-    Hardware.h \
-    Librairie.h \
-    MfErrNo.h \
-    Sw_Device.h \
-    Sw_ISO14443-4.h \
-    Sw_ISO14443A-3.h \
-    Sw_Mf_Classic.h \
-    Sw_Poll.h \
-    Tools.h \
-    TypeDefs.h \
     mainwindow.h
 
 FORMS += \
@@ -42,3 +30,8 @@ DISTFILES += \
 
 RESOURCES += \
     ressources.qrc
+
+unix|win32: LIBS += -L$$PWD/LIB/ -lODALID_Education
+
+INCLUDEPATH += $$PWD/LIB
+DEPENDPATH += $$PWD/LIB

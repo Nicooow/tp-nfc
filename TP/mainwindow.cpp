@@ -3,15 +3,8 @@
 
 #include <time.h>
 #include <stdio.h>
-
-#include "MfErrNo.h"
-#include "Core.h"
-#include "Sw_Device.h"
-#include "Sw_Mf_Classic.h"
-#include "Sw_Poll.h"
-#include "Sw_ISO14443A-3.h"
-#include "TypeDefs.h"
-#include "Tools.h"
+#include <QDebug>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,40 +12,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    int16_t status = MI_OK;
-    char s_buffer[64];
-
-
-    ReaderName reader;
-    reader.Type = ReaderCDC;
-    reader.device = 0;
-
-    status = OpenCOM(&reader);
-    if (status != MI_OK){
-        printf("Reader not found\n");
-    }
-    else{
-        switch(reader.Type)
-        {
-            case ReaderTCP:
-                sprintf(s_buffer, "IP : %s", reader.IPReader);
-            break;
-            case ReaderCDC:
-                sprintf(s_buffer, "COM%d", reader.device);
-            break;
-
-        }
-        printf("Reader found on %s\n", s_buffer);
-    }
-
-
-    status = Version(&reader);
+    /*status = Version(&reader);
     if (status == MI_OK){
-        printf("Reader firwmare is %s\n", reader.version);
-        printf("Reader serial is %02X%02X%02X%02X\n", reader.serial[0], reader.serial[1], reader.serial[2], reader.serial[3]);
-        printf("Reader stack is %s\n", reader.stack);
+        qDebug() << "Reader firwmare is \n" << reader.version;
     }
 
+    status = LEDBuzzer(&reader, LED_GREEN_ON);*/
 }
 
 MainWindow::~MainWindow()
@@ -60,3 +25,28 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+void MainWindow::on_connect_clicked()
+{
+    reader.Type = ReaderCDC;
+    reader.device = 0;
+
+    int16_t status = OpenCOM(&reader);
+    if (status != MI_OK){
+        QMessageBox messageBox;
+        messageBox.critical(0,"Erreur","Lecteur non trouvé !");
+        messageBox.setFixedSize(500,200);
+    }
+    else{
+        if(reader.Type==ReaderCDC){
+            this->ui->connect->setText("Connecté (PORT " + QString::number((int)reader.device) + ")");
+            this->ui->connect->setEnabled(false);
+            this->ui->disconnect->setEnabled(true);
+        }
+    }
+}
+
+void MainWindow::on_disconnect_clicked()
+{
+
+}
