@@ -42,11 +42,17 @@ void MainWindow::on_connect_clicked()
             this->ui->connect->setText("Connecté (PORT " + QString::number((int)reader.device) + ")");
             this->ui->connect->setEnabled(false);
             this->ui->disconnect->setEnabled(true);
+            LEDBuzzer(&reader, LED_RED_ON);
         }
     }
 }
 
 void MainWindow::on_disconnect_clicked()
 {
-
+    LEDBuzzer(&reader, LED_OFF);
+    RF_Power_Control(&reader, FALSE, 0);
+    CloseCOM(&reader);
+    this->ui->connect->setText("Connexion");
+    this->ui->connect->setEnabled(true);
+    this->ui->disconnect->setEnabled(false);
 }
