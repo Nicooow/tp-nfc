@@ -10,9 +10,21 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
 
 HEADERS += \
+    LIB/Core.h \
+    LIB/Core_Version.h \
+    LIB/Hardware.h \
+    LIB/Librairie.h \
+    LIB/MfErrNo.h \
+    LIB/Sw_Device.h \
+    LIB/Sw_ISO14443-4.h \
+    LIB/Sw_ISO14443A-3.h \
+    LIB/Sw_Mf_Classic.h \
+    LIB/Sw_Poll.h \
+    LIB/Tools.h \
+    LIB/TypeDefs.h \
     mainwindow.h
 
 FORMS += \
