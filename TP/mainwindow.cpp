@@ -56,3 +56,62 @@ void MainWindow::on_disconnect_clicked()
     this->ui->connect->setEnabled(true);
     this->ui->disconnect->setEnabled(false);
 }
+
+int MainWindow::readCard(int bloc, char *data, int keyIndex) {
+    int status = Mf_Classic_Read_Block(&reader, TRUE, bloc, (uint8_t*) data, AuthKeyA, keyIndex);
+    return status;
+}
+
+void MainWindow::on_read_clicked()
+{
+    uint8_t atq[2];
+    uint8_t sak[1];
+    uint8_t uid[12];
+    uint16_t uid_len = 12;
+    char data[240];
+
+
+   RF_Power_Control(&reader, TRUE, 0);
+   int status = ISO14443_3_A_PollCard(&reader, atq, sak, uid, &uid_len);
+   if (status != MI_OK){
+       qDebug()<<"Load Key [FAILED]\n";
+   }
+   else{
+       LEDBuzzer(&reader, BUZZER_ON);
+       readCard(9, data, 2);
+       ui->inputPrenom->setText(data);
+       readCard(10, data, 2);
+       ui->inputNom->setText(data);
+       DELAYS_MS(20);
+   }
+   LEDBuzzer(&reader, BUZZER_OFF);
+}
+
+
+void MainWindow::on_update_clicked()
+{
+    int status = 0;
+    unsigned char nom[16];
+    unsigned char prenom[16];
+    char data[240];
+
+    uint8_t atq[2];
+    uint8_t sak[1];
+    uint8_t uid[12];
+    uint16_t uid_len = 12;
+
+    RF_Power_Control(&reader, TRUE, 0);
+    status = ISO14443_3_A_PollCard(&reader, atq, sak, uid, &uid_len);
+
+    strncpy((char*)nom, ui->inputNom->text().toUtf8().data(), 16);
+    status = Mf_Classic_Write_Block(&reader, TRUE, 10, (uint8_t*) nom, AuthKeyB, 2);
+
+    strncpy((char*)prenom, ui->inputPrenom->text().toUtf8().data(), 16);
+    status = Mf_Classic_Write_Block(&reader, TRUE, 9, (uint8_t*) prenom, AuthKeyB, 2);
+
+    readCard(9, data, 2);
+    ui->inputPrenom->setText(data);
+    readCard(10 ,data, 2);
+    ui->inputNom->setText(data);
+}
+

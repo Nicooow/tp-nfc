@@ -26,6 +26,10 @@ public:
 private slots:
     void on_connect_clicked();
     void on_disconnect_clicked();
+    void on_read_clicked();
+    int readCard(int bloc, char *data, int keyIndex);
+
+    void on_update_clicked();
 
 private:
     Ui::MainWindow *ui;
