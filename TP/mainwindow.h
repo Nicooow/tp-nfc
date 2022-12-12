@@ -28,8 +28,12 @@ private slots:
     void on_disconnect_clicked();
     void on_read_clicked();
     int readCard(int bloc, char *data, int keyIndex);
+    int readCardInt(int bloc, uint8_t *data, int keyIndex);
 
     void on_update_clicked();
+
+    void on_increment_clicked();
+    void on_decrement_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -62,6 +62,11 @@ int MainWindow::readCard(int bloc, char *data, int keyIndex) {
     return status;
 }
 
+int MainWindow::readCardInt(int bloc, uint8_t *data, int keyIndex) {
+    int status = Mf_Classic_Read_Block(&reader, TRUE, bloc, data, AuthKeyA, keyIndex);
+    return status;
+}
+
 void MainWindow::on_read_clicked()
 {
     uint8_t atq[2];
@@ -75,16 +80,24 @@ void MainWindow::on_read_clicked()
    int status = ISO14443_3_A_PollCard(&reader, atq, sak, uid, &uid_len);
    if (status != MI_OK){
        qDebug()<<"Load Key [FAILED]\n";
+       return;
    }
    else{
-       LEDBuzzer(&reader, BUZZER_ON);
        readCard(9, data, 2);
        ui->inputPrenom->setText(data);
        readCard(10, data, 2);
        ui->inputNom->setText(data);
-       DELAYS_MS(20);
+       uint8_t value = 0;
+       status = readCardInt(14, &value, 3);
+       if(status == MI_OK){
+           QString credit = QString::number(value);
+           ui->inputCredits->setText(credit);
+           ui->inputCredits->update();
+       }
    }
-   LEDBuzzer(&reader, BUZZER_OFF);
+   LEDBuzzer(&reader, BUZZER_ON + LED_YELLOW_ON);
+   DELAYS_MS(10);
+   LEDBuzzer(&reader, BUZZER_OFF + LED_YELLOW_OFF + LED_RED_ON);
 }
 
 
@@ -116,4 +129,51 @@ void MainWindow::on_update_clicked()
         ui->inputNom->setText(data);
     }
 }
+
+
+void MainWindow::on_increment_clicked()
+{
+    int valueIncrement = ui->incrementValue->value();
+    int status = Mf_Classic_Increment_Value(&reader, TRUE, 14, valueIncrement, 13, AuthKeyB, 3);
+    if(status != MI_OK){
+        QMessageBox messageBox;
+        messageBox.critical(0,"Erreur","Impossible d'incrémenter le crédit. (1) : " + QString::number(MI_OK));
+        messageBox.setFixedSize(600,200);
+        return;
+    }
+
+    status = Mf_Classic_Restore_Value(&reader, TRUE, 13, 14, AuthKeyB, 3);
+    if(status!=MI_OK){
+        QMessageBox messageBox;
+        messageBox.critical(0,"Erreur","Impossible d'incrémenter le crédit. (2) : " + QString::number(MI_OK));
+        messageBox.setFixedSize(600,200);
+        return;
+    }
+
+    on_read_clicked();
+}
+
+void MainWindow::on_decrement_clicked()
+{
+    int valueDecrement = ui->decrementValue->value();
+    int status = Mf_Classic_Decrement_Value(&reader, TRUE, 14, valueDecrement, 13, AuthKeyB, 3);
+    if(status != MI_OK){
+        QMessageBox messageBox;
+        messageBox.critical(0,"Erreur","Impossible de décrémenter le crédit. (1) : " + QString::number(MI_OK));
+        messageBox.setFixedSize(600,200);
+        return;
+    }
+
+    status = Mf_Classic_Restore_Value(&reader, TRUE, 13, 14, AuthKeyB, 3);
+    if(status!=MI_OK){
+        QMessageBox messageBox;
+        messageBox.critical(0,"Erreur","Impossible de décrémenter le crédit. (2) : " + QString::number(MI_OK));
+        messageBox.setFixedSize(600,200);
+        return;
+    }
+
+    on_read_clicked();
+}
+
+
 
