@@ -21,9 +21,27 @@
     <bool>true</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(240, 240, 240);
-
-</string>
+    <string notr="true">* {
+background-color: rgb(243, 243, 243);
+}
+.QPushButton {
+	background-color: rgb(211, 88, 88);
+	color: white;
+	border: none;
+	padding:5px 0;
+	border-radius:5px;
+ }
+QPushButton:disabled {
+	color: #eee;
+	background-color: rgb(144, 60, 60);
+}
+QPushButton:hover {
+	
+	background-color: rgb(250, 104, 104);
+}
+.QLineEdit, QSpinBox {
+	background-color:white;
+}</string>
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <property name="leftMargin">
@@ -68,7 +86,7 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:600;&quot;&gt;Porte monnaie&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:600; color:#d35858;&quot;&gt;Porte monnaie&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt;&quot;&gt;Cette application montre le fonctionnement&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt;&quot;&gt;d'un porte monnaie électronique sur carte MIFARE Classic 1K&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
@@ -150,6 +168,26 @@ p, li { white-space: pre-wrap; }
             <number>2</number>
            </property>
            <item>
+            <widget class="QPushButton" name="read">
+             <property name="text">
+              <string>Lire la carte</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <widget class="QGroupBox" name="groupBox">
              <property name="maximumSize">
               <size>
@@ -223,14 +261,13 @@ p, li { white-space: pre-wrap; }
                   </layout>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="read">
-                   <property name="text">
-                    <string>Lire</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
                   <widget class="QPushButton" name="update">
+                   <property name="minimumSize">
+                    <size>
+                     <width>100</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="text">
                     <string>Mettre à jour</string>
                    </property>

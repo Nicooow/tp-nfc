@@ -103,15 +103,17 @@ void MainWindow::on_update_clicked()
     RF_Power_Control(&reader, TRUE, 0);
     status = ISO14443_3_A_PollCard(&reader, atq, sak, uid, &uid_len);
 
-    strncpy((char*)nom, ui->inputNom->text().toUtf8().data(), 16);
-    status = Mf_Classic_Write_Block(&reader, TRUE, 10, (uint8_t*) nom, AuthKeyB, 2);
+    if(status == MI_OK){
+        strncpy((char*)nom, ui->inputNom->text().toUtf8().data(), 16);
+        Mf_Classic_Write_Block(&reader, TRUE, 10, (uint8_t*) nom, AuthKeyB, 2);
 
-    strncpy((char*)prenom, ui->inputPrenom->text().toUtf8().data(), 16);
-    status = Mf_Classic_Write_Block(&reader, TRUE, 9, (uint8_t*) prenom, AuthKeyB, 2);
+        strncpy((char*)prenom, ui->inputPrenom->text().toUtf8().data(), 16);
+        Mf_Classic_Write_Block(&reader, TRUE, 9, (uint8_t*) prenom, AuthKeyB, 2);
 
-    readCard(9, data, 2);
-    ui->inputPrenom->setText(data);
-    readCard(10 ,data, 2);
-    ui->inputNom->setText(data);
+        readCard(9, data, 2);
+        ui->inputPrenom->setText(data);
+        readCard(10 ,data, 2);
+        ui->inputNom->setText(data);
+    }
 }
 
